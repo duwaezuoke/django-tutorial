@@ -1,0 +1,17 @@
+<h1>Share Your Votes</h1>
+
+{% block content %}
+  {% if sent %}
+    <h1>E-mail successfully sent</h1>
+    <p>
+      Votes was successfully sent.
+    </p>
+  {% else %}
+    <h3>Share by e-mail</h3>
+    <form action="." method="post">
+      {{ form.as_p }}
+      {% csrf_token %}
+      <input type="submit" value="Send e-mail">
+    </form>
+  {% endif %}
+{% endblock %}

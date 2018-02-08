@@ -5,6 +5,25 @@ from django.views import generic
 from django.utils import timezone
 
 from .models import Choice, Question
+from .forms import EmailPostForm
+from django.core.mail import send_mail
+
+
+def post_share(request, question_id):
+    # Retrieve post by id
+    polls = get_object_or_404(Question, pk=question_id)
+    #print("post title", question.text)
+    if request.method == 'POST':
+        # Form was submitted
+        form = EmailPostForm(request.POST)
+        if form.is_valid():
+            # Form fields passed validation
+            cd = form.cleaned_data
+            # ... send email
+    else:
+        form = EmailPostForm()
+    return render(request, 'polls/share.html', {'polls': polls,
+                                                    'form': form})
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'

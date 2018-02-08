@@ -1,15 +1,27 @@
-<h1>{{ question.question_text }}</h1>
-<p class="date">Published by duwaezuoke{{ question.author }}
+{% block title %}<h1>My Polls Blog</h1>{% endblock %}
+<head><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"></head>
+{% block content %}
+<div>
+	<h2>{{ question.question_text }}</h2>
+</div>	
+	<p>Published by duwaezuoke {{ question.author }}
   	</p>
   	{{ post.body|linebreaks }}
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-<h2>Pick a choice and vote</h2>
-<form action="{% url 'polls:vote' question.id %}" method="post">
-{% csrf_token %}
-{% for choice in question.choice_set.all %}
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	<h3>Pick a choice and vote</h3>
+	<form action="{% url 'polls:vote' question.id %}" method="post">
+	{% csrf_token %}
+	{% for choice in question.choice_set.all %}
     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
     <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
 
-{% endfor %}
-<input type="submit" value="Vote" />
-</form>
+	{% endfor %}
+	<p>
+  		<a href="{% url "polls:post_share" question.id %}">
+    		Share this post
+  		</a>
+	</p>
+	<input type="submit" value="Vote" />
+	</form>
+{% endblock %}
